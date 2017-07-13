@@ -4,6 +4,7 @@ public class CalculationProcess {
     private StringBuilder upperTextValue;
     private StringBuilder lowerTextValue;
     private boolean isResultInTextFile;
+    private boolean isError;
     private int intermediateResult;
     private String previousOperationSign;
 
@@ -11,6 +12,7 @@ public class CalculationProcess {
         upperTextValue = new StringBuilder();
         lowerTextValue = new StringBuilder();
         isResultInTextFile = false;
+        isError = false;
     }
     /**
      * simple arithmetic calculation when operation button is clicked
@@ -40,9 +42,11 @@ public class CalculationProcess {
 
     public void calculateTotal(String lowerText){
         intermediateResult = calculateIntermediateResult(lowerText);
-        upperTextValue.delete(0, upperTextValue.length());
-        lowerTextValue.delete(0, lowerTextValue.length());
-        lowerTextValue.append(String.valueOf(intermediateResult));
+        if (!isError) {
+            upperTextValue.delete(0, upperTextValue.length());
+            lowerTextValue.delete(0, lowerTextValue.length());
+            lowerTextValue.append(String.valueOf(intermediateResult));
+        }
     }
 
     private int calculateIntermediateResult(String nextTerm) {
@@ -54,6 +58,7 @@ public class CalculationProcess {
                 if (nextTerm.equals("0")) {
                     lowerTextValue.delete(0, lowerTextValue.length());
                     lowerTextValue.append("Деление на ноль невозможно");
+                    isError = true;
                     return 0;
                 }
                 return intermediateResult / Integer.parseInt(nextTerm);
@@ -66,6 +71,7 @@ public class CalculationProcess {
         upperTextValue.delete(0, upperTextValue.length());
         previousOperationSign = "";
         isResultInTextFile = false;
+        isError = false;
         intermediateResult = 0;
     }
 
@@ -88,5 +94,9 @@ public class CalculationProcess {
 
     public void setResultInTextFile(boolean resultInTextFile) {
         isResultInTextFile = resultInTextFile;
+    }
+
+    public boolean isError() {
+        return isError;
     }
 }

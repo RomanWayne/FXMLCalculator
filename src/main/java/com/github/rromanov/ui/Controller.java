@@ -26,32 +26,38 @@ public class Controller implements Initializable {
 
     @FXML
     private void clickNumberButton(ActionEvent event){
-        if (event.getSource() instanceof Button) {
-            Button clickButton = (Button) event.getSource();
-            if (!lowerTextField.getText().equals("0") && !calculationProcess.isResultInTextFile()) {
-                lowerTextField.setText(lowerTextField.getText() + clickButton.getText());
-                calculationProcess.setResultInTextFile(false);
-            } else {
-                lowerTextField.setText(clickButton.getText());
+        if(!calculationProcess.isError()) {
+            if (event.getSource() instanceof Button) {
+                Button clickButton = (Button) event.getSource();
+                if (!lowerTextField.getText().equals("0") && !calculationProcess.isResultInTextFile()) {
+                    lowerTextField.setText(lowerTextField.getText() + clickButton.getText());
+                    calculationProcess.setResultInTextFile(false);
+                } else {
+                    lowerTextField.setText(clickButton.getText());
+                }
             }
         }
     }
 
     @FXML
     private void clickOperationButton(ActionEvent event) {
-        if (event.getSource() instanceof Button) {
-            Button clickButton = (Button) event.getSource();
-            calculationProcess.arithmeticCalculation(upperTextField.getText(), lowerTextField.getText(), clickButton.getText());
-            refreshTextFields();
+        if(!calculationProcess.isError()) {
+            if (event.getSource() instanceof Button) {
+                Button clickButton = (Button) event.getSource();
+                calculationProcess.arithmeticCalculation(upperTextField.getText(), lowerTextField.getText(), clickButton.getText());
+                refreshTextFields();
+            }
         }
 
     }
 
     @FXML
     private void clickEqualButton() {
-        if (!upperTextField.getText().isEmpty()) {
-            calculationProcess.calculateTotal(lowerTextField.getText());
-            refreshTextFields();
+        if(!calculationProcess.isError()) {
+            if (!upperTextField.getText().isEmpty()) {
+                calculationProcess.calculateTotal(lowerTextField.getText());
+                refreshTextFields();
+            }
         }
     }
 
